@@ -1,0 +1,10 @@
+*.iml
+*.ipr
+*.iws
+*.pyc
+*.egg-info
+
+/dist/
+/build/
+
+/version.py
