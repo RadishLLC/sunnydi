@@ -3,13 +3,11 @@
 # get the build number from the git commit count
 BUILD=$(git rev-list HEAD --count)
 
-if [ -z "$BRANCH" ]; then
-    # build branch
-    BRANCH=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-fi
+# get the branch
+BRANCH=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
 
 # get the major/minor version from the git tag, parse it and pass it along to gradle
-VERSION=$(git describe --long | sed -E 's/^v([0-9]*)\.([0-9]*)-([0-9]*)-(.*)$/\1.\2.\3.\4/')
+VERSION=$(git describe --long --tags | sed -E 's/^v([0-9]*)\.([0-9]*)\.[0-9]*-([0-9]*)-(.*)$/\1.\2.\3.\4/')
 IFS='.' read -a versionparts <<< "$VERSION"
 
 MAJOR=${versionparts[0]}
@@ -48,8 +46,32 @@ else
     /usr/bin/env python setup.py version --major $MAJOR --minor $MINOR --revision $BUILD --variant $HASH
 fi
 
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+    echo "Generate version succeeded"
+else
+    echo "Generate version failed"
+    exit
+fi
+
 # build the source distribution
 /usr/bin/env python setup.py sdist
 
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+    echo "Generate source distribution succeeded"
+else
+    echo "Generate source distribution failed"
+    exit
+fi
+
 # build the wheel distribution
 /usr/bin/env python setup.py bdist_wheel
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+    echo "Generate wheel distribution succeeded"
+else
+    echo "Generate wheel distribution failed"
+    exit
+fi
