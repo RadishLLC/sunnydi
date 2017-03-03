@@ -4,7 +4,11 @@
 *.pyc
 *.egg-info
 
+/.tox/
+/.cache/
+
 /version.py
 /dist/
 /build/
 /docs/_build/
+
