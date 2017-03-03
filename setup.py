@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import io
 from setuptools import setup, find_packages, Command
 
 
@@ -52,20 +53,54 @@ class GenerateVersionCommand(Command):
         return self.variant is not None and self.variant != ''
 
 
+# Get the long description from the README file
+cwd = os.path.abspath(os.path.dirname(__file__))
+with io.open(os.path.join(cwd, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
+
+
 setup(name='sunnydi',
       version=get_version(),
       description='SunnyDI dependency injection framework',
+      long_description=long_description,
       author='Justin Smith',
       author_email='justin@thomasstreet.com',
       maintainer='Justin Smith',
       maintainer_email='justin@thomasstreet.com',
+      license='MIT',
       url='https://www.thomasstreet.com/',
       packages=find_packages(exclude=['test', 'docs']),
       package_data={
             'sunnydi': ['../version.py', '../LICENSE'],
       },
       include_package_data=True,
+      install_requires=[],
       cmdclass={
           'version': GenerateVersionCommand
       },
+      classifiers=[
+          # How mature is this project? Common values are
+          #   3 - Alpha
+          #   4 - Beta
+          #   5 - Production/Stable
+          'Development Status :: 3 - Alpha',
+
+          # Indicate who your project is intended for
+          'Intended Audience :: Developers',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+
+          # Pick your license as you wish (should match "license" above)
+          'License :: OSI Approved :: MIT License',
+
+          # Specify the Python versions you support here. In particular, ensure
+          # that you indicate whether you support Python 2, Python 3 or both.
+          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 2.6',
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.2',
+          'Programming Language :: Python :: 3.3',
+          'Programming Language :: Python :: 3.4',
+      ],
+      keywords='sample setuptools development',
       )
