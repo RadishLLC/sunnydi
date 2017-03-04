@@ -2,7 +2,6 @@
 
 import re
 import os
-import io
 from setuptools import setup, find_packages, Command
 
 
@@ -55,22 +54,16 @@ class GenerateVersionCommand(Command):
         return self.variant is not None and self.variant != ''
 
 
-# Get the long description from the README file
-cwd = os.path.abspath(os.path.dirname(__file__))
-with io.open(os.path.join(cwd, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
-
-
 setup(name='sunnydi',
       version=get_version(),
       description='SunnyDI dependency injection framework',
-      long_description=long_description,
+      long_description='Starter project for SunnyDI dependency-injection framework.',
       author='Justin Smith',
-      author_email='justin@thomasstreet.com',
+      author_email='smith.justin.c@gmail.com',
       maintainer='Justin Smith',
-      maintainer_email='justin@thomasstreet.com',
+      maintainer_email='smith.justin.c@gmail.com',
       license='MIT',
-      url='https://www.thomasstreet.com/',
+      url='https://github.com/RadishLLC/sunnydi',
       packages=find_packages(exclude=['test', 'docs']),
       package_data={
           'sunnydi': ['../version.py', '../LICENSE'],
@@ -104,5 +97,5 @@ setup(name='sunnydi',
           'Programming Language :: Python :: 3.3',
           'Programming Language :: Python :: 3.4',
       ],
-      keywords='sample setuptools development',
+      keywords='alpha development di dependency injection ioc',
       )
