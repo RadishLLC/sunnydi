@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import re
 import os
 import io
 from setuptools import setup, find_packages, Command
@@ -13,9 +14,10 @@ def get_version():
             f.write("__version__ = '0.0.0'\n")
 
     # now open and parse the version number
-    exec(compile(open('version.py').read(), 'version.py', 'exec'))
-
-    return __version__
+    with open('version.py') as f:
+        contents = f.read()
+        version = re.search(r"__version__\s*=\s*'(.*)'", contents, re.M).group(1)
+        return version
 
 
 class GenerateVersionCommand(Command):
@@ -71,7 +73,7 @@ setup(name='sunnydi',
       url='https://www.thomasstreet.com/',
       packages=find_packages(exclude=['test', 'docs']),
       package_data={
-            'sunnydi': ['../version.py', '../LICENSE'],
+          'sunnydi': ['../version.py', '../LICENSE'],
       },
       include_package_data=True,
       install_requires=[],
