@@ -5,6 +5,7 @@
 
 Welcome to SunnyDI's documentation!
 ===================================
+Starter project for SunnyDI dependency-injection framework.
 
 .. toctree::
    :maxdepth: 2
