@@ -51,7 +51,7 @@ if [ $RESULT -eq 0 ]; then
     echo "Generate version succeeded"
 else
     echo "Generate version failed"
-    exit
+    exit 1
 fi
 
 # build the wheelhouse if it doesn't already exist
@@ -65,23 +65,19 @@ if [ ! -d ".wheelhouse" ]; then
         echo "Generate wheelhouse succeeded"
     else
         echo "Generate wheelhouse failed"
-        exit
+        exit 1
     fi
 fi
 
 # run tox for code checks
-if [ "$*" = "ci" ]; then
-    /usr/bin/env tox
-else
-    /usr/bin/env tox -e dev
-fi
+/usr/bin/env tox
 
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
     echo "Code checks succeeded"
 else
     echo "Code checks failed"
-    exit
+    exit 1
 fi
 
 # build the source distribution
@@ -92,7 +88,7 @@ if [ $RESULT -eq 0 ]; then
     echo "Generate source distribution succeeded"
 else
     echo "Generate source distribution failed"
-    exit
+    exit 1
 fi
 
 # build the wheel distribution
@@ -103,5 +99,5 @@ if [ $RESULT -eq 0 ]; then
     echo "Generate wheel distribution succeeded"
 else
     echo "Generate wheel distribution failed"
-    exit
+    exit 1
 fi
