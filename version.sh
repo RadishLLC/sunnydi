@@ -15,7 +15,7 @@ if [ $RESULT -eq 0 ]; then
     echo "Bump version succeeded"
 else
     echo "Bump version failed"
-    exit
+    exit 1
 fi
 
 # get the build number from the git commit count

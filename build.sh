@@ -27,9 +27,6 @@ fi
 
 HASH=${versionparts[3]}
 
-if [ -z "$MAJOR" ]; then
-    MAJOR=0
-fi
 
 #echo "Version: $VERSION"
 #echo "Major: $MAJOR"
