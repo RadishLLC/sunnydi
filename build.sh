@@ -40,7 +40,7 @@ fi
 #echo "Hash: $HASH"
 
 # update the version from git branch info
-if [ "$BRANCH" = "master" ]; then
+if [ "$*" = "ci" ]; then
     /usr/bin/env python setup.py version --major $MAJOR --minor $MINOR --revision $BUILD
 else
     /usr/bin/env python setup.py version --major $MAJOR --minor $MINOR --revision $BUILD --variant $HASH
@@ -70,7 +70,11 @@ if [ ! -d ".wheelhouse" ]; then
 fi
 
 # run tox for code checks
-/usr/bin/env tox -e dev
+if [ "$*" = "ci" ]; then
+    /usr/bin/env tox
+else
+    /usr/bin/env tox -e dev
+fi
 
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
