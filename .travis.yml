@@ -2,16 +2,25 @@ language: python
 cache: pip
 env:
 - TOXENV=py27
-- TOXENV=py33
-- TOXENV=py34
 install: pip install tox
 script: bash build.sh
 notifications:
   email: false
 deploy:
-  provider: pypi
-  distributions: sdist bdist_wheel
-  server: https://testpypi.python.org/pypi
-  user: thomasstreet
-  password:
-    secure: do5b7c4Y5h1sNjI03J/2PBj0aFP7QetoYAlOIBVK+N/u6mnQKxRvatQa+mXih+Up8lMEDulA2OSyRS/Ft2iqbnG9duT5lR1Ed4M0tFd7yimtC0Wqx+0G/tDQ7z6+gjAZK/z/W51QAZYucvdYsm6UW4taPkiLDpWO0ghbU5Aq/PKn23VADrvjwr/ZInCJOPZRkm09fUTzsyZBt5iknKenf0js6WUkufh3SdIa47OD5M35e7YaPoIHzM8VF9CPvGVcSGEqd0qAeQnr8/1p3fNKp/1lguX1/kN7upn5OCN5TAjB8+OaSIjyqaalamTEAqgf7t4YIM0zrZD7ooZoJQVsOHBpEtpHO807Do1tmexejYlG1JI+wLSKQmGP3tIdIoZvCEOCTOJKbwYj0dO0uXbHDx6vYaw+9T0HxYN8zrTchYeAXGIMz1zr2EYu+hTrxVJL+/31s0IHiRPLD1E4dsbyZEMQFil5LXMZuCdR4YJWnQ97sdkzZa006HXTkoBGhKYq+Q4X+G22gnmcFyRaeogs81CSo4+H734BSOF13dFLgGFJ6Y0uTyV216HN30QX3a65LEqEN7MW8y8uxwmcxw2VApn1VzjM2cQTz8t82H7cZrU85xry7FbqRvq2EeQciuFxZsuVkiWK9MEuL+AAcUrj1CwTEXvwG7McEJhLcBOVtu0=
+  - provider: pypi
+    distributions: sdist bdist_wheel
+    server: https://testpypi.python.org/pypi
+    user: thomasstreet
+    password:
+      secure: do5b7c4Y5h1sNjI03J/2PBj0aFP7QetoYAlOIBVK+N/u6mnQKxRvatQa+mXih+Up8lMEDulA2OSyRS/Ft2iqbnG9duT5lR1Ed4M0tFd7yimtC0Wqx+0G/tDQ7z6+gjAZK/z/W51QAZYucvdYsm6UW4taPkiLDpWO0ghbU5Aq/PKn23VADrvjwr/ZInCJOPZRkm09fUTzsyZBt5iknKenf0js6WUkufh3SdIa47OD5M35e7YaPoIHzM8VF9CPvGVcSGEqd0qAeQnr8/1p3fNKp/1lguX1/kN7upn5OCN5TAjB8+OaSIjyqaalamTEAqgf7t4YIM0zrZD7ooZoJQVsOHBpEtpHO807Do1tmexejYlG1JI+wLSKQmGP3tIdIoZvCEOCTOJKbwYj0dO0uXbHDx6vYaw+9T0HxYN8zrTchYeAXGIMz1zr2EYu+hTrxVJL+/31s0IHiRPLD1E4dsbyZEMQFil5LXMZuCdR4YJWnQ97sdkzZa006HXTkoBGhKYq+Q4X+G22gnmcFyRaeogs81CSo4+H734BSOF13dFLgGFJ6Y0uTyV216HN30QX3a65LEqEN7MW8y8uxwmcxw2VApn1VzjM2cQTz8t82H7cZrU85xry7FbqRvq2EeQciuFxZsuVkiWK9MEuL+AAcUrj1CwTEXvwG7McEJhLcBOVtu0=
+    on:
+      branch: master
+  - provider: releases
+    api_key:
+      secure: mM2wzXEK0hXDEFXNDUUS2kEXOhUXeitU1FeFtJ455DBz0GiQHmcbGTnrmWbM0rc19MrKrHMwYfnPW2JUB3gIwwEm3a9EhlPzOYUnRadHGfYbMElL8dipLq81LN5hMoZKku6KiSyiWY7n4aqIjdBPSBM43Neoy48mZP0MX2G5tgenKYRo59OfYOXXDjWT7hnJnk6Sa6GHxlIZJm4cLcoea/egE5oJdm1XWWnSTLOeMncGLiXGyE2iBlABrJxXSaq5PIybFTHzUmvI/Fz76p+PgW6IDbXrQxsNtxwoi/kP8h9H91IRimjFX7hBLM2NUjPdv9ktg91nX2gXEAj2YFnfbfK6FkFoFN/KSZAaAlouFqSBpVBDD+CswH4f8JoBBkgnJUUsVEQs3YpY5hgHVxdGHIcO2mPgwB+jmK028HYzFeJzN6UN8FX+ivkDq98EkJKCjufTrkTohreKycFD6Hcsd+EJP14Tbin1XeHCNNmoBPPmE+8CcRdQEmUQt/fK+TvbHySFdFs0PEvXvKpA2NOUXklDUJKEIGKt4wcn6g0be1LkRG9BePTkPed1QdqqhjAAcb3aN2oDE6aCtXZNaAzELTc9dAMPRHL6QP/Xa3RcJZZ32m2oQwUzUtJkD2NI4Y6312/+31L/cmQ5LXucoouQxrAH8oCA9SNkxjCLZx/miRo=
+    file_glob: true
+    file: dist/*
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
