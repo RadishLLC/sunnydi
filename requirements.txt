@@ -1,2 +1,9 @@
-bumpversion>=0.5.3
+bumpversion
 tox
+pip
+wheel
+check-manifest
+readme_renderer
+flake8
+pytest
+pytest-cov

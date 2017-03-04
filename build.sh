@@ -54,6 +54,32 @@ else
     exit
 fi
 
+# build the wheelhouse if it doesn't already exist
+if [ ! -d ".wheelhouse" ]; then
+
+    /usr/bin/env pip install wheelhouse
+    /usr/bin/env wheelhouse build
+
+    RESULT=$?
+    if [ $RESULT -eq 0 ]; then
+        echo "Generate wheelhouse succeeded"
+    else
+        echo "Generate wheelhouse failed"
+        exit
+    fi
+fi
+
+# run tox for code checks
+/usr/bin/env tox -e dev
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+    echo "Code checks succeeded"
+else
+    echo "Code checks failed"
+    exit
+fi
+
 # build the source distribution
 /usr/bin/env python setup.py sdist
 

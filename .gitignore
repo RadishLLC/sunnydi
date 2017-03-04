@@ -6,9 +6,12 @@
 
 /.tox/
 /.cache/
+/.coverage
+/.wheelhouse/
 
 /version.py
+/coverage.xml
 /dist/
 /build/
 /docs/_build/
-
+/htmlcov/
