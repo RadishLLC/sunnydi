@@ -27,31 +27,51 @@ class GenerateVersionCommand(Command):
     description = 'generate version number file'
 
     user_options = [
-        ('major=', 'm', 'major version number'),
-        ('minor=', 'n', 'minor version number'),
-        ('revision=', 'r', 'revision number'),
-        ('variant=', 'v', 'build variant'),
+        ('sha', None, 'include commit SHA hash'),
     ]
 
     def initialize_options(self):
-        self.major = 0
-        self.minor = 0
-        self.revision = 0
-        self.variant = None
+        self.sha = False
 
     def finalize_options(self):
-        pass
+        self.sha = True if int(self.sha) == 1 else False
 
     def run(self):
-        with open('version.py', 'w') as f:
-            if self._variant_defined:
-                f.write("__version__ = '%s.%s.%s-%s'\n" % (self.major, self.minor, self.revision, self.variant))
-            else:
-                f.write("__version__ = '%s.%s.%s'\n" % (self.major, self.minor, self.revision))
 
-    @property
-    def _variant_defined(self):
-        return self.variant is not None and self.variant != ''
+        major, minor, revision, offset, sha = self._get_version_from_git()
+
+        print("Major: %s" % major)
+        print("Minor: %s" % minor)
+        print("Revision: %s" % revision)
+        print("Offset: %s" % offset)
+        print("Sha: %s" % sha)
+
+        with open('version.py', 'w') as f:
+            if self.sha:
+                f.write("__version__ = '%s.%s.%s-%s'\n" % (major, minor, revision, sha))
+            else:
+                f.write("__version__ = '%s.%s.%s'\n" % (major, minor, revision))
+
+    @staticmethod
+    def _get_version_from_git():
+        import re
+        import git
+
+        # parse our version number
+        # from a combination of the
+        # git revision count as well
+        # as git tagged  version
+        repo = git.Repo()
+        head = repo.head.commit
+        revision = head.count()
+        d = repo.git.describe(long=True, tags=True)
+        m = re.search('^v([0-9]*)\.([0-9]*)\.[0-9]*-([0-9]*)-(.*)$', d)
+
+        assert m is not None
+
+        g = m.groups()
+
+        return g[0], g[1], revision, g[2], g[3]
 
 
 setup(name='sunnydi',
@@ -78,7 +98,10 @@ setup(name='sunnydi',
           #   3 - Alpha
           #   4 - Beta
           #   5 - Production/Stable
-          'Development Status :: 3 - Alpha',
+          "Development Status :: 1 - Planning",
+          # "Development Status :: 2 - Pre-Alpha",
+          # "Development Status :: 3 - Alpha",
+          # "Development Status :: 4 - Beta",
 
           # Indicate who your project is intended for
           'Intended Audience :: Developers',
